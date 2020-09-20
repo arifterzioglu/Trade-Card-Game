@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	
+    <!-- First Player -->
+   
+    <bean id="firstPlayerHealthSlot"
+    		class="Entity.SlotEntity.HealthSlots">
+   	</bean>
+   	
+	<bean id="firstPlayerManaSlot"
+    		class="Entity.SlotEntity.ManaSlots">
+   	</bean>
+   	
+    <bean id="firstPlayerSlotsContainer" class="Entity.SlotEntity.SlotsContainer">
+        <constructor-arg index="0" ref="firstPlayerHealthSlot"/>
+   		<constructor-arg index="1" ref="firstPlayerManaSlot"/>
+   	</bean>   	
+   	
+    <bean id="firstPlayerCardDeck"
+    		class="Entity.CardContainerEntity.CardDeck">
+   	</bean>
+   	
+    <bean id="firstPlayer" class="Entity.PlayerEntity.RegularPlayer">
+        <constructor-arg index="0" ref="firstPlayerCardDeck"/>
+   		<constructor-arg index="1" ref="firstPlayerSlotsContainer"/>
+   	</bean>
+   	
+   	
+   	<!-- Second Player -->
+   	<bean id="secondPlayerHealthSlot" class="Entity.SlotEntity.HealthSlots">
+   	</bean>
+   	
+    <bean id="secondPlayerManaSlot" class="Entity.SlotEntity.ManaSlots">
+   	</bean>
+   	
+    <bean id="secondPlayerSlotsContainer" class="Entity.SlotEntity.SlotsContainer">
+        <constructor-arg index="0" ref="secondPlayerHealthSlot"/>
+   		<constructor-arg index="1" ref="secondPlayerManaSlot"/>
+   	</bean>   	
+   	
+    <bean id="secondPlayerCardDeck" class="Entity.CardContainerEntity.CardDeck">
+   	</bean>
+   	
+    <bean id="secondPlayer" class="Entity.PlayerEntity.RegularPlayer">
+        <constructor-arg index="0" ref="secondPlayerCardDeck"/>
+   		<constructor-arg index="1" ref="secondPlayerSlotsContainer"/>
+   	</bean>
+   	
+   	    <!-- DAL -->
+    <bean id="cardDeckManaCostsDAL" class="DataAccessLayer.CardDeckManaCostsFileDAL">
+   	</bean>
+
+    <!-- Player Manager -->
+    <bean id="playerManager" class="Managers.PlayerManager.PlayerManager">
+        <constructor-arg index="0" ref="firstPlayer"/>
+   		<constructor-arg index="1" ref="secondPlayer"/>
+   		<constructor-arg index="2" ref="cardDeckManaCostsDAL"/>
+   	</bean>
+   	
+   	<!-- Validator -->
+    <bean id="validator" class="Validators.Validator">
+        <constructor-arg index="0" ref="playerManager"/>
+   	</bean>
+   	
+  	<!-- Game Manager -->
+   	<bean id="gameManager" class="Managers.GameManager.GameManager">
+        <constructor-arg index="0" ref="playerManager"/>
+   		<constructor-arg index="1" ref="validator"/>
+   	</bean>
+</beans>
+
+
+
+
+
